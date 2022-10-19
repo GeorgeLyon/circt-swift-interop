@@ -55,7 +55,7 @@ jobs:
           mkdir build
           cmake \
             --no-warn-unused-cli \
-            -DCMAKE_C_COMPILER=clang \ 
+            -DCMAKE_C_COMPILER=clang \
             -DCMAKE_CXX_COMPILER=clang \
             -DLLVM_ENABLE_ASSERTIONS=ON \
             -DLLVM_ENABLE_PROJECTS=mlir \
@@ -71,8 +71,8 @@ jobs:
             -DLLVM_EXTERNAL_CIRCT_SOURCE_DIR=/workspaces/circt-workspace/circt \
             -DCIRCT_BINDINGS_SWIFT_ENABLED=ON \
             -DCMAKE_BUILD_TYPE=Debug \
-            -Scirct/llvm/llvm \
-            -Bbuild \
+            -S circt/llvm/llvm \
+            -B build \
             -G Ninja
           cmake \
             --build build \
