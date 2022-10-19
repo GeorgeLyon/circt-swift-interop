@@ -19,6 +19,7 @@ jobs:
         uses: slashmo/install-swift@v0.1.0
         with:
           version: "swift-DEVELOPMENT-SNAPSHOT-2022-10-17-a"
+      - uses: seanmiddleditch/gha-setup-ninja@master
       - name: Checkout CIRCT
         run: |
           git clone https://github.com/llvm/circt
@@ -49,11 +50,13 @@ jobs:
           git config --global user.email "robot"
           git config --global user.name "robot"
           git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
-      - name: Check circt-swift-bindings-test builds
+      - name: Check circt-swift-bindings-test
         run: |
           mkdir build
           cmake \
             --no-warn-unused-cli \
+            -DCMAKE_C_COMPILER=clang \ 
+            -DCMAKE_CXX_COMPILER=clang \
             -DLLVM_ENABLE_ASSERTIONS=ON \
             -DLLVM_ENABLE_PROJECTS=mlir \
             -DLLVM_TARGETS_TO_BUILD=host \
