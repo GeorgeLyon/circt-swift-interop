@@ -24,6 +24,7 @@ jobs:
         run: |
           cd circt
           if git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-bindings)..remotes/george/dev/george/swift-bindings ; then
+            echo "No conflicts."
           else
             git checkout HEAD -- llvm 
           fi
