@@ -23,6 +23,8 @@ jobs:
       - name: Cherry-pick relevant CIRCT commits
         run: |
           cd circt
+          git config --global user.email "robot"
+          git config --global user.name "robot"
           if git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-bindings)..remotes/george/dev/george/swift-bindings ; then
             echo "No conflicts."
           else
@@ -39,6 +41,8 @@ jobs:
       - name: Cherry-pick relevant LLVM commits
         run: | 
           cd circt/llvm
+          git config --global user.email "robot"
+          git config --global user.name "robot"
           git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
       - name: Install correct Swift version
         uses: slashmo/install-swift@v0.1.0
