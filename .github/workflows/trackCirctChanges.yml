@@ -13,12 +13,8 @@ on:
 jobs:
   track-circt:
     name: Track CIRCT Changes
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-development
-          tag: DEVELOPMENT-SNAPSHOT-2022-10-17-a
       - name: Checkout CIRCT
         run: |
           git clone https://github.com/llvm/circt
@@ -49,6 +45,10 @@ jobs:
           git config --global user.email "robot"
           git config --global user.name "robot"
           git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
+      - name: Install correct Swift version
+        uses: slashmo/install-swift@v0.1.0
+        with:
+          version: "swift-DEVELOPMENT-SNAPSHOT-2022-10-17-a"
       - name: Check circt-swift-bindings-test builds
         run: |
           mkdir build
