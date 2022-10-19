@@ -1,0 +1,75 @@
+name: Track CIRCT Changes
+on:
+  schedule:
+    # 13:00 (1PM) UTC is 5AM Pacific, or a few hours before the workday starts
+    - cron: '0 13 * * *'
+  # Run this workflow on pull requests which change this workflow
+  pull_request: 
+    paths:
+      - .github/workflows/trackCirctChanges.yml
+  # Allow running manually
+  workflow_dispatch:
+
+jobs:
+  track-circt:
+    name: Track CIRCT Changes
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout CIRCT
+        run: |
+          git clone https://github.com/llvm/circt
+          cd circt
+          git remote add -f george https://github.com/GeorgeLyon/circt
+      - name: Cherry-pick relevant CIRCT commits
+        run: |
+          cd circt
+          if git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-bindings)..remotes/george/dev/george/swift-bindings ; then
+          else
+            git checkout HEAD -- llvm 
+          fi
+          until git cherry-pick --continue --no-edit ; do
+            git checkout HEAD -- llvm
+          done
+      - name: Check out LLVM
+        run: |
+          cd circt
+          git clone https://github.com/llvm/llvm-project llvm --filter=tree:0
+          cd llvm git remote add -f george https://github.com/GeorgeLyon/llvm-project
+      - name: Cherry-pick relevant LLVM commits
+        run: | 
+          cd circt/llvm
+          git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
+      - name: Install correct Swift version
+        uses: slashmo/install-swift@v0.1.0
+        with:
+          version: "swift-DEVELOPMENT-SNAPSHOT-2022-10-17-a"
+      - name: Check circt-swift-bindings-test builds
+        run: |
+          mkdir build
+          cmake \
+            --no-warn-unused-cli \
+            -DLLVM_ENABLE_ASSERTIONS=ON \
+            -DLLVM_ENABLE_PROJECTS=mlir \
+            -DLLVM_TARGETS_TO_BUILD=host \
+            -DLLVM_BUILD_EXAMPLES=OFF \
+            -DLLVM_ENABLE_OCAMLDOC=OFF \
+            -DLLVM_ENABLE_BINDINGS=OFF \
+            -DLLVM_ENABLE_MODULES=OFF \
+            -DLLVM_OPTIMIZED_TABLEGEN=ON \
+            -DLLVM_USE_SPLIT_DWARF=ON \
+            -DLLVM_CCACHE_BUILD=OFF \
+            -DLLVM_EXTERNAL_PROJECTS=circt \
+            -DLLVM_EXTERNAL_CIRCT_SOURCE_DIR=/workspaces/circt-workspace/circt \
+            -DCIRCT_BINDINGS_SWIFT_ENABLED=ON \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -Scirct/llvm/llvm \
+            -Bbuild \
+            -G Ninja
+          cmake \
+            --build build \
+            --config Debug \
+            --target circt-swift-bindings-test \
+            --
+
+      
+    
