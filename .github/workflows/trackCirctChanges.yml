@@ -36,7 +36,7 @@ jobs:
       - name: Check out LLVM
         run: |
           cd circt
-          git clone https://github.com/llvm/llvm-project llvm --filter=tree:0
+          git clone https://github.com/llvm/llvm-project llvm
           cd llvm 
           git remote add -f george https://github.com/GeorgeLyon/llvm-project
       - name: Cherry-pick relevant LLVM commits
