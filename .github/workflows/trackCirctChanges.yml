@@ -37,7 +37,8 @@ jobs:
         run: |
           cd circt
           git clone https://github.com/llvm/llvm-project llvm --filter=tree:0
-          cd llvm git remote add -f george https://github.com/GeorgeLyon/llvm-project
+          cd llvm 
+          git remote add -f george https://github.com/GeorgeLyon/llvm-project
       - name: Cherry-pick relevant LLVM commits
         run: | 
           cd circt/llvm
@@ -75,6 +76,7 @@ jobs:
             --config Debug \
             --target circt-swift-bindings-test \
             --
+          build/bin/circt-swift-bindings-test
 
       
     
