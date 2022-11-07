@@ -42,7 +42,7 @@ jobs:
       - name: Check out LLVM
         run: |
           cd circt
-          git submodue update --init
+          git submodule update --init
           cd llvm 
           git remote add -f george https://github.com/GeorgeLyon/llvm-project
       - name: Cherry-pick relevant LLVM commits
