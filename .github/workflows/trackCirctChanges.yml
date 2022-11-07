@@ -15,10 +15,11 @@ jobs:
     name: Track CIRCT Changes
     runs-on: ubuntu-20.04
     steps:
-      - name: Install correct Swift version
-        uses: slashmo/install-swift@v0.1.0
+      - name: Install Correct Swift Version
+        uses: georgelyon/gha-setup-swift@main
         with:
-          version: "swift-DEVELOPMENT-SNAPSHOT-2022-10-17-a"
+          branch: swift-5.7.1-release
+          tag: 5.7.1-RELEASE
       - uses: seanmiddleditch/gha-setup-ninja@master
       - name: Checkout CIRCT
         run: |
@@ -41,7 +42,7 @@ jobs:
       - name: Check out LLVM
         run: |
           cd circt
-          git clone https://github.com/llvm/llvm-project llvm
+          git submodue update --init
           cd llvm 
           git remote add -f george https://github.com/GeorgeLyon/llvm-project
       - name: Cherry-pick relevant LLVM commits
