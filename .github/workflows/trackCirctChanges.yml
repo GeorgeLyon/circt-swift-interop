@@ -13,7 +13,7 @@ on:
 jobs:
   track-circt:
     name: Track CIRCT Changes
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Install Correct Swift Version
         uses: georgelyon/gha-setup-swift@main
