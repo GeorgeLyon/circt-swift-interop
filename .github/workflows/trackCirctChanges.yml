@@ -20,7 +20,8 @@ jobs:
         with:
           branch: development
           tag: DEVELOPMENT-SNAPSHOT-2022-11-03-a
-      - uses: seanmiddleditch/gha-setup-ninja@master
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
       - name: Checkout CIRCT
         run: |
           git clone https://github.com/llvm/circt
@@ -29,8 +30,8 @@ jobs:
       - name: Cherry-pick relevant CIRCT commits
         run: |
           cd circt
-          git config --global user.email "robot"
-          git config --global user.name "robot"
+          git config user.email "robot"
+          git config user.name "robot"
           if git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-bindings)..remotes/george/dev/george/swift-bindings ; then
             echo "No conflicts."
           else
@@ -48,11 +49,12 @@ jobs:
       - name: Cherry-pick relevant LLVM commits
         run: | 
           cd circt/llvm
-          git config --global user.email "robot"
-          git config --global user.name "robot"
+          git config user.email "robot"
+          git config user.name "robot"
           git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
       - name: Check circt-swift-bindings-test
         run: |
+          swift --version
           mkdir build
           cmake \
             -DCMAKE_C_COMPILER=clang \
