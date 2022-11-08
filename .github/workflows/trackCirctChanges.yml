@@ -18,8 +18,8 @@ jobs:
       - name: Install Correct Swift Version
         uses: georgelyon/gha-setup-swift@main
         with:
-          branch: swift-5.7.1-release
-          tag: 5.7.1-RELEASE
+          branch: development
+          tag: DEVELOPMENT-SNAPSHOT-2022-11-03-a
       - uses: seanmiddleditch/gha-setup-ninja@master
       - name: Checkout CIRCT
         run: |
@@ -55,7 +55,6 @@ jobs:
         run: |
           mkdir build
           cmake \
-            --no-warn-unused-cli \
             -DCMAKE_C_COMPILER=clang \
             -DCMAKE_CXX_COMPILER=clang++ \
             -DLLVM_ENABLE_ASSERTIONS=ON \
