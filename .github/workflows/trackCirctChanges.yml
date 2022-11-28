@@ -14,15 +14,13 @@ jobs:
   track-circt:
     name: Track CIRCT Changes
     runs-on: ubuntu-22.04
+    container: swiftlang/swift:nightly-main-jammy
     steps:
       - uses: actions/checkout@v3
-      - name: Install Correct Swift Version
-        uses: georgelyon/gha-setup-swift@main
-        with:
-          branch: development
-          tag: DEVELOPMENT-SNAPSHOT-2022-11-03-a
-      - name: Install Ninja
-        uses: seanmiddleditch/gha-setup-ninja@master
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y git clang ninja-build
       - name: Checkout CIRCT
         run: |
           git clone https://github.com/llvm/circt
@@ -53,9 +51,9 @@ jobs:
           git config user.email "robot"
           git config user.name "robot"
           git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
-      - name: Install custom modulemap for libstdc++
-        run: |
-          cp libstdcxx.modulemap /usr/include/c++/12/module.modulemap
+      # - name: Install custom modulemap for libstdc++
+      #   run: |
+      #     cp libstdcxx.modulemap /usr/include/c++/12/module.modulemap
       - name: Check circt-swift-bindings-test
         run: |
           swift --version
