@@ -51,9 +51,6 @@ jobs:
           git config user.email "robot"
           git config user.name "robot"
           git cherry-pick $(git merge-base HEAD remotes/george/dev/george/swift-interop)..remotes/george/dev/george/swift-interop
-      # - name: Install custom modulemap for libstdc++
-      #   run: |
-      #     cp libstdcxx.modulemap /usr/include/c++/12/module.modulemap
       - name: Check circt-swift-bindings-test
         run: |
           swift --version
