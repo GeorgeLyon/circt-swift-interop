@@ -13,7 +13,8 @@ RUN \
     git \
     libncurses5-dev \
     ninja-build \
-    python3
+    python3 \
+    --fix-missing 
 
 # Install Verilator Dependencies
 RUN \

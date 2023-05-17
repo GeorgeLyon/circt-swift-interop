@@ -6,17 +6,21 @@
     "--security-opt",
     "seccomp=unconfined",
   ],
-  "settings": {
-    "lldb.adapterType": "bundled",
-    "lldb.executable": "/usr/bin/lldb",
-    "terminal.integrated.defaultProfile.linux": "/bin/bash",
-  },
-  "extensions": [
-    "sswg.swift-lang",
-    "vadimcn.vscode-lldb",
-    "vknabel.vscode-apple-swift-format",
-    "llvm-vs-code-extensions.vscode-clangd",
-    "ms-vscode.cmake-tools",
-    "xaver.clang-format"
-  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "lldb.adapterType": "bundled",
+        "lldb.executable": "/usr/bin/lldb",
+        "terminal.integrated.defaultProfile.linux": "/bin/bash",
+      },
+      "extensions": [
+        "sswg.swift-lang",
+        "vadimcn.vscode-lldb",
+        "vknabel.vscode-apple-swift-format",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "xaver.clang-format"
+      ],
+    }
+  }, 
 }
